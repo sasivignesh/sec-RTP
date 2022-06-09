@@ -421,6 +421,22 @@ static void test_algoSetterGetter(void) {
 		{ {ZRTP_UNSET_ALGO}, 0, {ZRTP_UNSET_ALGO}, 0, }
 	};
 	struct st_algo_setter_getter *agreement_type;
+	struct st_algo_setter_getter cipher_types[] = {
+		{ {ZRTP_CIPHER_AES1}, 1, {ZRTP_CIPHER_AES1}, 1 },
+		{ {ZRTP_CIPHER_AES2}, 1, {ZRTP_CIPHER_AES1}, 1 },
+		{ {ZRTP_CIPHER_AES3}, 1, {ZRTP_CIPHER_AES3, ZRTP_CIPHER_AES1}, 2 },
+		{ {ZRTP_CIPHER_2FS1}, 1, {ZRTP_CIPHER_AES1}, 1 },
+		{ {ZRTP_CIPHER_2FS2}, 1, {ZRTP_CIPHER_AES1}, 1 },
+		{ {ZRTP_CIPHER_2FS3}, 1, {ZRTP_CIPHER_AES1}, 1 },
+		{ {ZRTP_CIPHER_AES3, ZRTP_CIPHER_AES3}, 2, {ZRTP_CIPHER_AES3, ZRTP_CIPHER_AES1}, 2 },
+		{ {ZRTP_CIPHER_AES3, ZRTP_CIPHER_AES1}, 2, {ZRTP_CIPHER_AES3, ZRTP_CIPHER_AES1}, 2 },
+		{ {ZRTP_CIPHER_AES1, ZRTP_CIPHER_AES3}, 2, {ZRTP_CIPHER_AES1, ZRTP_CIPHER_AES3}, 2 },
+		{ {ZRTP_CIPHER_AES1, ZRTP_CIPHER_AES2}, 2, {ZRTP_CIPHER_AES1}, 1 },
+		{ {ZRTP_CIPHER_AES1, ZRTP_CIPHER_2FS3}, 2, {ZRTP_CIPHER_AES1}, 1 },
+		{ {ZRTP_CIPHER_AES2, ZRTP_CIPHER_2FS3}, 2, {ZRTP_CIPHER_AES1}, 1 },
+		{ {ZRTP_CIPHER_2FS3, ZRTP_CIPHER_2FS2, ZRTP_CIPHER_2FS1, ZRTP_CIPHER_AES3, ZRTP_CIPHER_AES2, ZRTP_CIPHER_AES1}, 6, {ZRTP_CIPHER_AES3, ZRTP_CIPHER_AES1}, 2 },
+		{ {ZRTP_UNSET_ALGO}, 0, {ZRTP_UNSET_ALGO}, 0, }
+	};
 	/* When PQ algorithm are available, the init function will add AES3 at the end of the list when not present */
 	struct st_algo_setter_getter cipher_types_with_PQ[] = {
 		{ {ZRTP_CIPHER_AES1}, 1, {ZRTP_CIPHER_AES1, ZRTP_CIPHER_AES3}, 2 },
@@ -438,25 +454,16 @@ static void test_algoSetterGetter(void) {
 		{ {ZRTP_CIPHER_2FS3, ZRTP_CIPHER_2FS2, ZRTP_CIPHER_2FS1, ZRTP_CIPHER_AES3, ZRTP_CIPHER_AES2, ZRTP_CIPHER_AES1}, 6, {ZRTP_CIPHER_AES3, ZRTP_CIPHER_AES1}, 2 },
 		{ {ZRTP_UNSET_ALGO}, 0, {ZRTP_UNSET_ALGO}, 0, }
 	};
-	struct st_algo_setter_getter cipher_types[] = {
-		{ {ZRTP_CIPHER_AES1}, 1, {ZRTP_CIPHER_AES1}, 1 },
-		{ {ZRTP_CIPHER_AES2}, 1, {ZRTP_CIPHER_AES1}, 1 },
-		{ {ZRTP_CIPHER_AES3}, 1, {ZRTP_CIPHER_AES3, ZRTP_CIPHER_AES1}, 2 },
-		{ {ZRTP_CIPHER_2FS1}, 1, {ZRTP_CIPHER_AES1}, 1 },
-		{ {ZRTP_CIPHER_2FS2}, 1, {ZRTP_CIPHER_AES1}, 1 },
-		{ {ZRTP_CIPHER_2FS3}, 1, {ZRTP_CIPHER_AES1}, 1 },
-		{ {ZRTP_CIPHER_AES3, ZRTP_CIPHER_AES3}, 2, {ZRTP_CIPHER_AES3, ZRTP_CIPHER_AES1}, 2 },
-		{ {ZRTP_CIPHER_AES3, ZRTP_CIPHER_AES1}, 2, {ZRTP_CIPHER_AES3, ZRTP_CIPHER_AES1}, 2 },
-		{ {ZRTP_CIPHER_AES1, ZRTP_CIPHER_AES3}, 2, {ZRTP_CIPHER_AES1, ZRTP_CIPHER_AES3}, 2 },
-		{ {ZRTP_CIPHER_AES1, ZRTP_CIPHER_AES2}, 2, {ZRTP_CIPHER_AES1}, 1 },
-		{ {ZRTP_CIPHER_AES1, ZRTP_CIPHER_2FS3}, 2, {ZRTP_CIPHER_AES1}, 1 },
-		{ {ZRTP_CIPHER_AES2, ZRTP_CIPHER_2FS3}, 2, {ZRTP_CIPHER_AES1}, 1 },
-		{ {ZRTP_CIPHER_2FS3, ZRTP_CIPHER_2FS2, ZRTP_CIPHER_2FS1, ZRTP_CIPHER_AES3, ZRTP_CIPHER_AES2, ZRTP_CIPHER_AES1}, 6, {ZRTP_CIPHER_AES3, ZRTP_CIPHER_AES1}, 2 },
-		{ {ZRTP_UNSET_ALGO}, 0, {ZRTP_UNSET_ALGO}, 0, }
-	};
-
 
 	struct st_algo_setter_getter *cipher_type;
+	struct st_algo_setter_getter hash_types[] = {
+		{ {ZRTP_HASH_S256}, 1, {ZRTP_HASH_S256}, 1 },
+		{ {ZRTP_HASH_S384}, 1, {ZRTP_HASH_S384, ZRTP_HASH_S256}, 2 },
+		{ {ZRTP_HASH_S512}, 1, {ZRTP_HASH_S512, ZRTP_HASH_S256}, 2 },
+		{ {ZRTP_HASH_N256}, 1, {ZRTP_HASH_S256}, 1 },
+		{ {ZRTP_HASH_N384}, 1, {ZRTP_HASH_S256}, 1 },
+		{ {ZRTP_UNSET_ALGO}, 0, {ZRTP_UNSET_ALGO}, 0, }
+	};
 	/* When PQ algorithm are available, the init function will add SHA512 at the end of the list when not present */
 	struct st_algo_setter_getter hash_types_with_PQ[] = {
 		{ {ZRTP_HASH_S256}, 1, {ZRTP_HASH_S256,ZRTP_HASH_S512}, 2 },
@@ -466,15 +473,6 @@ static void test_algoSetterGetter(void) {
 		{ {ZRTP_HASH_N384}, 1, {ZRTP_HASH_S256, ZRTP_HASH_S512}, 2 },
 		{ {ZRTP_UNSET_ALGO}, 0, {ZRTP_UNSET_ALGO}, 0, }
 	};
-	struct st_algo_setter_getter hash_types[] = {
-		{ {ZRTP_HASH_S256}, 1, {ZRTP_HASH_S256}, 1 },
-		{ {ZRTP_HASH_S384}, 1, {ZRTP_HASH_S384, ZRTP_HASH_S256}, 2 },
-		{ {ZRTP_HASH_S512}, 1, {ZRTP_HASH_S512, ZRTP_HASH_S256}, 2 },
-		{ {ZRTP_HASH_N256}, 1, {ZRTP_HASH_S256}, 1 },
-		{ {ZRTP_HASH_N384}, 1, {ZRTP_HASH_S256}, 1 },
-		{ {ZRTP_UNSET_ALGO}, 0, {ZRTP_UNSET_ALGO}, 0, }
-	};
-
 	struct st_algo_setter_getter *hash_type;
 
 	/* key agreement type */
@@ -494,7 +492,7 @@ static void test_algoSetterGetter(void) {
 	}
 	
 	/* PQ KEM agreement type */
-	if ( bzrtp_key_agreement_algo_list()&BCTBX_KEM_KYBER512 ) {
+	if ( bctoolbox::bctbx_crypto_have_pq_kem()) {
 		//agreement_type = &ecdh_agreement_types[0];
 		agreement_type = &pqkem_agreement_types[0];
 		while (agreement_type->contextTypesCount > 0) {
@@ -504,7 +502,7 @@ static void test_algoSetterGetter(void) {
 	}
 
 	/* cipher type */
-	if ( bzrtp_key_agreement_algo_list()&BCTBX_KEM_KYBER512 ) {
+	if (bctbx_key_agreement_algo_list()&BCTBX_KEM_KYBER512) {
 		cipher_type = &cipher_types_with_PQ[0];
 	} else {
 		cipher_type = &cipher_types[0];
@@ -515,7 +513,7 @@ static void test_algoSetterGetter(void) {
 	}
 
 	/* hash type */
-	if ( bzrtp_key_agreement_algo_list()&BCTBX_KEM_KYBER512 ) {
+	if (bctbx_key_agreement_algo_list()&BCTBX_KEM_KYBER512) {
 		hash_type = &hash_types_with_PQ[0];
 	} else {
 		hash_type = &hash_types[0];

@@ -63,7 +63,6 @@ check_library_exists("m" "sqrt" "" HAVE_SQRT)
 
 if(NOT DISABLE_BC_PACKAGE_SEARCH)
 	find_package(bctoolbox 0.0.3 REQUIRED OPTIONAL_COMPONENTS tester CONFIG)
-	find_package(postquantumcryptoengine CONFIG)
 endif()
 
 if(ENABLE_ZIDCACHE)
@@ -108,10 +107,6 @@ endif()
 
 if (ENABLE_EXPORTEDKEY_V1_0_RETROCOMPATIBILITY)
 	add_definitions("-DSUPPORT_EXPORTEDKEY_V010000")
-endif()
-
-if (postquantumcryptoengine_FOUND)
-	add_definitions("-DHAVE_BCTBXPQ")
 endif()
 
 set(EXPORT_TARGETS_NAME "bzrtp")
