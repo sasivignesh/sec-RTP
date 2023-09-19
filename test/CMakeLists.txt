@@ -45,6 +45,11 @@ target_link_libraries(bzrtp-tester PRIVATE ${BCToolbox_tester_TARGET} bzrtp)
 if(HAVE_SQRT AND NOT WIN32)
 	target_link_libraries(bzrtp-tester PRIVATE m)
 endif()
+if(SQLite3_FOUND)
+	target_link_libraries(bzrtp-tester PRIVATE ${SQLite3_TARGET})
+else()
+	message(FATAL_ERROR "SQLite3 library not found, but is required by bzrtp-tester")
+endif()
 
 install(TARGETS bzrtp-tester
 	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}

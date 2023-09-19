@@ -49,7 +49,7 @@ target_include_directories(bzrtp PUBLIC
 )
 target_link_libraries(bzrtp PRIVATE ${BCToolbox_TARGET})
 if(SQLite3_FOUND)
-	target_link_libraries(bzrtp PUBLIC ${SQLite3_TARGET})
+	target_link_libraries(bzrtp PRIVATE ${SQLite3_TARGET})
 endif()
 if(ENABLE_PQCRYPTO)
 	target_link_libraries(bzrtp PRIVATE ${PostQuantumCryptoEngine_TARGET})
