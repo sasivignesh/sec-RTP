@@ -245,14 +245,31 @@ typedef struct bzrtpCallbacks_struct {
 
 /**
  * @brief bzrtpContext_t The ZRTP engine context
- * Store current state, timers, HMAC and encryption keys
+ * Opaque structure, store current state, timers, HMAC and encryption keys
 */
 typedef struct bzrtpContext_struct bzrtpContext_t;
+
+/**
+ * @brief bzrtpCache_t The ZRTP cache context
+ * Allow acces to the ZRTP cache, can be shared by several context
+*/
+typedef struct bzrtpCache_struct bzrtpCache_t;
 
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+/*
+ * @brief Open the ZRTP cache and returns a pointer to the opaque structure to acces it
+ * The function must be called only once, the context can then be shared by several zrtpcontexts
+ */
+BZRTP_EXPORT bzrtpCache_t *bzrtp_cacheOpen(const char *zidCachePath);
+
+/*
+ * @brief Close the ZRTP cache
+ */
+BZRTP_EXPORT void bzrtp_cacheClose(bzrtpCache_t *zidCache);
 
 /**
  * Create context structure and initialise it
@@ -317,6 +334,7 @@ BZRTP_EXPORT int bzrtp_setZIDCache_lock(bzrtpContext_t *context, void *zidCache,
  * @return 0 or BZRTP_CACHE_SETUP(if cache is populated by this call) on success, error code otherwise
 */
 BZRTP_EXPORT int bzrtp_setZIDCache(bzrtpContext_t *context, void *zidCache, const char *selfURI, const char *peerURI);
+BZRTP_EXPORT int bzrtp_setZIDCache_new(bzrtpContext_t *context, bzrtpCache_t *zidCache, const char *selfURI, const char *peerURI);
 
 /**
  * @brief Set the client data pointer in a channel context
@@ -537,7 +555,7 @@ BZRTP_EXPORT int bzrtp_initCache_lock(void *db, bctbx_mutex_t *zidCacheMutex);
  *
  * @return		0 on success, or BZRTP_CACHE_DATA_NOTFOUND if no ZID matching the URI was found and no RNGContext is given to generate one
  */
-BZRTP_EXPORT BZRTP_DEPRECATED int bzrtp_getSelfZID(void *db, const char *selfURI, uint8_t selfZID[12], bctbx_rng_context_t *RNGContext);
+BZRTP_EXPORT BZRTP_DEPRECATED int bzrtp_getSelfZID(bzrtpCache_t *db, const char *selfURI, uint8_t selfZID[12], bctbx_rng_context_t *RNGContext);
 
 /**
  * @brief : retrieve ZID from cache

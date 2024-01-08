@@ -17,8 +17,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 #include <stdint.h>
-#include "typedef.h"
-#include "packetParser.h"
+#include "../src/typedef.h"
+#include "../src/packetParser.h"
 
 #ifdef __cplusplus
 extern "C"{

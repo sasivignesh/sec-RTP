@@ -22,7 +22,7 @@
 #include <math.h>
 
 #include "bzrtp/bzrtp.h"
-#include "cryptoUtils.h"
+#include "../src/cryptoUtils.h"
 #include "testUtils.h"
 #include "bzrtpTest.h"
 #include "bctoolbox/crypto.hh"

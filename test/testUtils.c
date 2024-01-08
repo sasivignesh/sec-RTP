@@ -23,7 +23,7 @@
 #include <string.h>
 
 #include "testUtils.h"
-#include "cryptoUtils.h"
+#include "../src/cryptoUtils.h"
 
 #include "bzrtpTest.h"
 

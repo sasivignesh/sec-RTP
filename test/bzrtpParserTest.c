@@ -22,10 +22,10 @@
 #include <errno.h>
 
 #include "bzrtp/bzrtp.h"
-#include "typedef.h"
-#include "packetParser.h"
-#include "cryptoUtils.h"
-#include "zidCache.h"
+#include "../src/typedef.h"
+#include "../src/packetParser.h"
+#include "../src/cryptoUtils.h"
+#include "../src/zidCache.h"
 #include "testUtils.h"
 #include "bzrtpTest.h"
 

@@ -42,9 +42,6 @@ add_executable(bzrtp-tester ${BZRTP_TEST_C_SOURCES} ${BZRTP_TEST_CXX_SOURCES})
 set_target_properties(bzrtp-tester PROPERTIES LINK_FLAGS "${LINK_FLAGS}")
 set_target_properties(bzrtp-tester PROPERTIES LINKER_LANGUAGE CXX)
 target_link_libraries(bzrtp-tester PRIVATE ${BCToolbox_tester_TARGET} bzrtp)
-if(HAVE_SQRT AND NOT WIN32)
-	target_link_libraries(bzrtp-tester PRIVATE m)
-endif()
 
 install(TARGETS bzrtp-tester
 	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}

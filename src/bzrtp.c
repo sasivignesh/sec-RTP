@@ -87,6 +87,7 @@ bzrtpContext_t *bzrtp_createBzrtpContext(void) {
 	/* initialise cached secret buffer to null */
 	context->zidCache = NULL; /* a pointer to the sqlite3 db accessor, can be NULL if running cacheless */
 	context->zidCacheMutex = NULL; /* a pointer to a mutex provided by the environment to lock database during access, ignored if NULL */
+	context->zidCache_new = NULL; /* a pointer to the sqlite3 db accessor, can be NULL if running cacheless */
 	context->zuid = 0;
 	context->peerBzrtpVersion = 0;
 	context->selfURI = NULL;
@@ -148,6 +149,44 @@ int bzrtp_setZIDCache(bzrtpContext_t *context, void *zidCache, const char *selfU
 
 	/* and init the cache(create needed tables if they don't exist) */
 	return bzrtp_initCache_lock(context->zidCache, context->zidCacheMutex);
+#else /* ZIDCACHE_ENABLED */
+	return BZRTP_ERROR_CACHEDISABLED;
+#endif /* ZIDCACHE_ENABLED */
+}
+
+/**
+ * @brief Set the pointer allowing cache access
+ *
+ * @param[in,out]	context			The ZRTP context we're dealing with
+ * @param[in]		zidCache		pointer to a ZrtpCache opaque structure
+ * @param[in]   	selfURI			Local URI used for this communication, needed to perform cache operation, NULL terminated string, duplicated by this function
+ * @param[in]   	peerURI			Peer URI used for this communication, needed to perform cache operation, NULL terminated string, duplicated by this function
+ *
+ * @return 0 or BZRTP_CACHE_SETUP(if cache is populated by this call) on success, error code otherwise
+*/
+int bzrtp_setZIDCache_new(bzrtpContext_t *context, bzrtpCache_t *zidCache, const char *selfURI, const char *peerURI) {
+#ifdef ZIDCACHE_ENABLED
+	/* is zrtp context valid */
+	if (context==NULL) {
+		return BZRTP_ERROR_INVALIDCONTEXT;
+	}
+
+	/* zidCache pointer is actually a pointer to sqlite3 db, store it in context */
+	context->zidCache_new = zidCache;
+	if (context->selfURI != NULL) {
+		free(context->selfURI);
+	}
+	context->selfURI = strdup(selfURI);
+
+	if (context->peerURI != NULL) {
+		free(context->peerURI);
+	}
+	context->peerURI = strdup(peerURI);
+
+	if (zidCache == NULL) {
+		return BZRTP_ZIDCACHE_RUNTIME_CACHELESS;
+	}
+	return BZRTP_CACHE_SETUP;
 #else /* ZIDCACHE_ENABLED */
 	return BZRTP_ERROR_CACHEDISABLED;
 #endif /* ZIDCACHE_ENABLED */

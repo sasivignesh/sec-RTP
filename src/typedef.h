@@ -269,6 +269,7 @@ struct bzrtpContext_struct {
 	/* ZIDs and cache */
 #ifdef ZIDCACHE_ENABLED
 	sqlite3 *zidCache; /**< an sqlite3 db pointer to the zid cache **/
+	bzrtpCache_t *zidCache_new; /**< a pointer to the zid cache opaque structure **/
 #else
 	void *zidCache; /**< an empty pointer always set to NULL when cache is disabled **/
 #endif /* ZIDCACHE_ENABLED */

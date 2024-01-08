@@ -25,10 +25,10 @@ set(BZRTP_C_SOURCE_FILES
 	packetParser.c
 	pgpwords.c
 	stateMachine.c
-	zidCache.c
 )
 set(BZRTP_CXX_SOURCE_FILES
 	cryptoUtils.cc
+	zidCache.cc
 )
 
 add_definitions(
@@ -48,6 +48,9 @@ target_include_directories(bzrtp PUBLIC
 	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
 )
 target_link_libraries(bzrtp PRIVATE ${BCToolbox_TARGET})
+if(ENABLE_ZIDCACHE)
+target_link_libraries(bzrtp PRIVATE ${Soci_TARGET} ${Soci_sqlite3_TARGET})
+endif()
 if(SQLite3_FOUND)
 	target_link_libraries(bzrtp PUBLIC ${SQLite3_TARGET})
 endif()

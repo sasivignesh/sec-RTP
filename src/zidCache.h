@@ -35,6 +35,7 @@ extern "C"{
  * return 	0 on succes, error code otherwise 
  */
 BZRTP_EXPORT int bzrtp_getPeerAssociatedSecrets(bzrtpContext_t *context, uint8_t peerZID[12]);
+BZRTP_EXPORT int bzrtp_getPeerAssociatedSecrets_new(bzrtpContext_t *context, uint8_t peerZID[12]);
 
 /**
  * @brief get the cache internal id used to bind local uri(hence local ZID associated to it)<->peer uri/peer ZID.
@@ -57,6 +58,7 @@ BZRTP_EXPORT int bzrtp_getPeerAssociatedSecrets(bzrtpContext_t *context, uint8_t
 #define BZRTP_ZIDCACHE_DONT_INSERT_ZUID	0
 #define BZRTP_ZIDCACHE_INSERT_ZUID	1
 BZRTP_EXPORT int bzrtp_cache_getZuid(void *dbPointer, const char *selfURI, const char *peerURI, const uint8_t peerZID[12], const uint8_t insertFlag, int *zuid, bctbx_mutex_t *zidCacheMutex);
+BZRTP_EXPORT int bzrtp_cache_getZuid_new(bzrtpCache_t *dbPointer, const char *selfURI, const char *peerURI, const uint8_t peerZID[12], const uint8_t insertFlag, int *zuid);
 
 /**
  * @brief This is a convenience wrapper to the bzrtp_cache_write function which will also take care of

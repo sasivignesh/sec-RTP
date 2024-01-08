@@ -44,13 +44,14 @@ list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 include(GNUInstallDirs)
 include(CheckLibraryExists)
-check_library_exists("m" "sqrt" "" HAVE_SQRT)
 
 find_package(BCToolbox 5.3.0 REQUIRED OPTIONAL_COMPONENTS tester)
+
 if(ENABLE_PQCRYPTO)
 	find_package(PostQuantumCryptoEngine 5.3.0 REQUIRED)
 endif()
 if(ENABLE_ZIDCACHE)
+	find_package(Soci REQUIRED COMPONENTS sqlite3)
 	bc_find_package(SQLite3 SQLite::SQLite3 sqlite3 REQUIRED)
 endif()
 
@@ -142,6 +143,9 @@ install(FILES
 )
 if(ENABLE_PQCRYPTO)
 	install(FILES "cmake/FindPostQuantumCryptoEngine.cmake" DESTINATION ${CMAKE_MODULES_INSTALL_DIR})
+endif()
+if(ENABLE_ZIDCACHE)
+	install(FILES "cmake/FindSoci.cmake" DESTINATION ${CMAKE_MODULES_INSTALL_DIR})
 endif()
 
 install(EXPORT ${PROJECT_NAME}Targets

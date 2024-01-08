@@ -21,7 +21,7 @@
 
 #include <stdio.h>
 #include "bzrtpTest.h"
-#include "typedef.h"
+#include "../src/typedef.h"
 #include "testUtils.h"
 
 static const char *log_domain = "bzrtp-tester";

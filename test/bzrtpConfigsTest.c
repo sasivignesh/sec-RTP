@@ -24,7 +24,7 @@
 #include <bctoolbox/port.h>
 
 #include "bzrtp/bzrtp.h"
-#include "zidCache.h"
+#include "../src/zidCache.h"
 #include "bzrtpTest.h"
 #include "testUtils.h"
 
